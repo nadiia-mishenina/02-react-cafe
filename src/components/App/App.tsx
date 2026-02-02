@@ -1,10 +1,10 @@
-import { useState } from "react";
-import CafeInfo from "../CafeInfo/CafeInfo";
-import VoteOptions from "../VoteOptions/VoteOptions";
-import VoteStats from "../VoteStats/VoteStats";
-import Notification from "../Notification/Notification";
-import { VoteType, Votes } from "../../types/votes";
-import css from "./App.module.css";
+import { useState } from 'react';
+import CafeInfo from '../CafeInfo/CafeInfo';
+import VoteOptions from '../VoteOptions/VoteOptions';
+import VoteStats from '../VoteStats/VoteStats';
+import Notification from '../Notification/Notification';
+import type { VoteType, Votes } from '../../types/votes';
+import css from './App.module.css';
 
 const initialVotes: Votes = {
   good: 0,
@@ -15,9 +15,8 @@ const initialVotes: Votes = {
 export default function App() {
   const [votes, setVotes] = useState<Votes>(initialVotes);
 
-  
   const handleVote = (type: VoteType) => {
-    setVotes((prev) => ({
+    setVotes(prev => ({
       ...prev,
       [type]: prev[type] + 1,
     }));
@@ -27,7 +26,6 @@ export default function App() {
     setVotes(initialVotes);
   };
 
-
   const totalVotes = votes.good + votes.neutral + votes.bad;
 
   const positiveRate = totalVotes
@@ -36,19 +34,20 @@ export default function App() {
 
   return (
     <div className={css.app}>
-    
       <CafeInfo />
 
-  
       <VoteOptions
         onVote={handleVote}
         onReset={resetVotes}
         canReset={totalVotes > 0}
       />
 
-    
       {totalVotes > 0 ? (
-        <VoteStats votes={votes} totalVotes={totalVotes} positiveRate={positiveRate} />
+        <VoteStats
+          votes={votes}
+          totalVotes={totalVotes}
+          positiveRate={positiveRate}
+        />
       ) : (
         <Notification />
       )}
